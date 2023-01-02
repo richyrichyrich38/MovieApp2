@@ -2,6 +2,7 @@
 
 :root {
   --primary: #c725d2;
+  --orange: orange;
 
 }
 
@@ -110,7 +111,7 @@ main .movie-item > *:not(:last-child) {
 }
 
 main .movie-item h3 {
-  color: #fff;
+  color: var(--orange);
   font-size: .95rem;
 }
 
@@ -121,7 +122,7 @@ main .movie-item p {
 }
 
 main .movie-item a {
-  color: var(--primary);
-  border-bottom: dashed 1px var(--primary);
+  color: var(--orange);
+  border-bottom: dashed 1px var(--orange);
   font-size: .8rem;
 }

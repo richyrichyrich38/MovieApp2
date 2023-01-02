@@ -3,14 +3,18 @@ var itemWrapper = document.querySelector('main');
 
 function displayMatches(matches) {
   itemWrapper.innerHTML = '';
+
+  if(!matches) {
+    return itemWrapper.innerHTML = '<p class="no-search">No results found.</p>'
+  } 
   
-  for (match of matches) {
+  for (var match of matches) {
     itemWrapper.insertAdjacentHTML('beforeend', `
     <div class="movie-item" style="background-image: 
-    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${match.image_url});">
-      <h3>${match.title}</h3>
-      <p>${match.description}</p>
-      <a href="${match.imdb_url}">View more details.</a>
+    linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${match.Poster});">
+      <h3>${match.Title}</h3>
+      <p>Release Year: ${match.Year}</p>
+      <a href="https://www.imdb.com/title/${match.imdbID}" target="_blank">View more details.</a>
     </div>
     `)
   }
@@ -21,35 +25,18 @@ function getMovieData(event) {
   var searchText = searchInput.value.trim()
   
   if (keyCode === 13 && searchText) {
-    var matches = [];
-
-    for (movie of movieData) {
-      if (movie.title.toLowerCase().includes(searchText)) {
-        matches.push(movie);
-      }
-    }
-
-    var responsePromise = fetch('https://www.omdbapi.com/?i=tt3896198&apikey=2fd1d9f2&t=drive')
-      
+    var responsePromise = fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=2fd1d9f2&s=${searchText}`);
+    
     function handleResponse(responseObj) {
       return responseObj.json();
     }
-
+    
     responsePromise
       .then(handleResponse)
-      .then(function(data) {
-        console.log(data);
-        return 'this is cool'
-      }) 
-      .then(function(huh) {
-        console.log(huh);
+      .then(function(data){
+        displayMatches(data.Search);
       })
 
-
-
-
-
-    displayMatches(matches);
   }
 }
 
